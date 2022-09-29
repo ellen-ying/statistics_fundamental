@@ -258,6 +258,74 @@ To reduce this value to 0.1, the value of $\alpha_0 + n$ should at least be 100.
 %-------------------------------------------------------------
 \newpage
 
+\section*{7.4 Bayes Estimator}
+\subsection*{Problem 1}
+In a clinical trial, let the probability of successful outcome $\theta$ have a prior distribution that is the uniform distribution on the interval [0, 1], which is also the beta distribution with parameters 1 and 1. Suppose that the first patient has a successful outcome. Find the Bayes estimates of $\theta$ that would be obtained for both the squared error and absolute error loss functions.
+
+\
+
+\textbf{Answer:} When the squared error loss function is used, the Bayes estimator is the mean of the posterior distribution of $\theta$, which is a beta distribution with parameter $\alpha_1 = 2$ and $\beta_1 = 1$. We have the Bayes estimator as follows,
+\begin{equation*}
+\delta^*(\boldsymbol{X}) = \mathbb{E}[\theta \mid \boldsymbol{x}] = \frac{\alpha_0 + \sum_i^n X_i}{\alpha_0 + \beta_0 + n}.
+\end{equation*}
+Based on the information given, $\sum X_i = 1$ and $n = 1$. Therefore, $\delta^*(\boldsymbol{x}) = \frac{2}{3}$.\\
+When the absolute error loss function is used, the Bayes estimator is the median of the posterior distribution of $\theta$. Note that the p.d.f. of the posterior distribution of $\theta$ is
+\begin{equation*}
+\xi(\theta \mid \boldsymbol{x}) = \frac{\theta}{\text{B}(2,1)},
+\end{equation*}
+and there for the cumulative distribution function is
+\begin{equation*}
+F_{\theta \mid \boldsymbol{x}}(x) = \frac{1}{\text{B}(2,1)} \int_0^x \theta d\theta.
+\end{equation*}
+Set this function equal to 0.5 and solve the equation, which gives $x = \frac{\sqrt{2}}{2}$. This means that the Bayes estimate of $\theta$ when absolute error loss function is used is $2^{-1/2}$.
+
+%-------------------------------------------------------------
+\bigskip
+
+\subsection*{Problem 3}
+Suppose that the proportion $\theta$ of defective items in a large shipment is unknown, and the prior distribution of $\theta$ is the beta distribution for which the parameters are $\alpha = 5$ and $\beta = 10$. Suppose also that 20 items are selected at random from the shipment.\\
+a. For what number of defective items in the sample will the mean squared error of the Bayes estimate be a maximum?\\
+b. For what number will the mean squared error of the Bayes estimate be a minimum?
+
+\
+
+\textbf{Answer:} From the information given, the posterior distribution of $\theta$ will be a beta distribution with parameters $\alpha_1 = 5 + y$ and $\beta_1 = 30 - y$, where $y$ is the number of defective items among the sample of 20 items and $0 \le y \le 20$. We have the mean squared error being
+\begin{equation*}
+\text{Var}(\theta \mid \boldsymbol{x}) = \frac{\alpha_1 \beta_1}{(\alpha_1 + \beta_1)^2 (\alpha_1 + \beta_1 + 1)} = \frac{(5 + y)(30-y)}{35^2 \times 36} = \frac{- (y - 25/2)^2 + c}{35^2 \times 36}.
+\end{equation*}
+The estimator is maximized when $y = 12 \; \text{or} \; 13$ and minimized when $y = 0$.
+
+%-------------------------------------------------------------
+\bigskip
+
+\subsection*{Problem 5}
+Suppose that the number of defects in a 1200-foot roll of magnetic recording tape has a Poisson distribution for which the value of the mean $\theta$ is unknown, and the prior distribution of $\theta$ is the gamma distribution with parameters $\alpha = 3$ and $\beta = 1$. When five rolls of this tape are selected at random and inspected, the numbers of defects found on the rolls are 2, 2, 6, 0, and 3. If the squared error loss function is used, what is the Bayes estimate of $\theta$?
+
+\
+
+\textbf{Answer:} Based on the information given, the posterior distribution of $\theta$ is a gamma distribution with parameters $\alpha_1 = 16$ and $\beta_1 = 6$. Therefore, we have the Bayes estimator being
+\begin{equation*}
+\delta^*{X} = \frac{\alpha_1}{\beta_1} = \frac{8}{3}.
+\end{equation*}
+
+
+\subsection*{Problem 9}
+Suppose that a random sample is to be taken from a normal distribution for which the value of the mean $\theta$ is unknown and the standard deviation is 2, the prior distribution of $\theta$ is a normal distribution for which the standard deviation is 1, and the value of $\theta$ must be estimated by using the squared error loss function. What is the smallest random sample that must be taken in order for the mean squared error of the Bayes estimator of $\theta$ to be 0.01 or less?
+
+\
+
+\textbf{Answer:} The mean squared error of the Bayes estimator of $\theta$ is given by
+\begin{align*}
+\mathbb{E}[L(\theta, \delta^*(\boldsymbol{x})) \mid \boldsymbol{x}] &= \mathbb{E}[(\theta - \delta^*(\boldsymbol{x}))^2 \mid \boldsymbol{x}] \\
+&= \mathbb{E}[\theta^2 \mid \boldsymbol{x}] - 2 \delta^*(\boldsymbol{x}) \mathbb{E}[\theta \mid \boldsymbol{x}] + (\delta^*(\boldsymbol{x}))^2 \\
+&= \mathbb{E}[\theta^2 \mid \boldsymbol{x}] - (\mathbb{E}[\theta \mid \boldsymbol{x}])^2 \\
+&= \text{Var}[\theta \mid \boldsymbol{x}] \\
+&= \frac{\sigma^2 v_0^2}{\sigma^2 + n v_0^2} = \frac{4}{4 + n}.
+\end{align*}
+This value being less than or equal to 0.01 gives the minimum value of $n = 396$.
+
+%-------------------------------------------------------------
+\newpage
 
 
 \end{document}
