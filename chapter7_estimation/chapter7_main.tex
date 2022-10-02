@@ -327,5 +327,88 @@ This value being less than or equal to 0.01 gives the minimum value of $n = 396$
 %-------------------------------------------------------------
 \newpage
 
+\section*{7.5 Maximum Likelihood Estimator}
+\subsection*{Problem 3}
+It is not known what proportion $p$ of the purchases of a certain brand of breakfast cereal are made by women and what proportion are made by men. However, we do know that $\frac{1}{2} \le p \le \frac{2}{3}$. In a random sample of 70 purchases of this cereal, it was found that 58 were made by women and 12 were made by men. Find the M.L.E. of $p$.
+
+\
+
+\textbf{Answer:} Based on the information given, the likelihood function of 70 observations is given by
+\begin{equation*}
+f_{70}(\boldsymbol{x} \mid p) = p^{58} (1-p)^{12}.
+\end{equation*}
+Taking the derivative with respect to $p$ gives
+\begin{equation*}
+\frac{df}{dp} = p^{57} (1-p)^{11} (58(1-p) - 12p).
+\end{equation*}
+Setting the derivative to 0 and solving for $p$ gives $p = \frac{29}{35}$. The second derivative at this point is negative, implying that the likelihood function reaches a local maximum. However, this value falls outside the given boundary of $p$. Therefore, the M.L.E. of p is $\frac{2}{3}$.
+
+%-------------------------------------------------------------
+\bigskip
+
+\subsection*{Problem 5}
+Suppose that $X_1, \dots , X_n$ form a random sample from a Poisson distribution for which the mean $\theta$ is unknown ($\theta > 0$).\\
+a. Determine the M.L.E. of $\theta$, assuming that at least one of the observed values is different from 0.\\
+b. Show that the M.L.E. of $\theta$ does not exist if every observed value is 0.
+
+\
+
+\textbf{Answer.a:} Since $X_i$ is a random sample from a Poisson distribution, the p.f. for each observation is
+\begin{equation*}
+f(x_i \mid \theta) = e^{-\theta} \frac{\theta^{x_i}}{x_i!}.
+\end{equation*}
+Thus the joint p.f. and the likelihood function for all $n$ observations is 
+\begin{equation*}
+f_n(x_i \mid \theta) = e^{-n\theta} \frac{\theta^y}{\prod_i^n(x_i!)},
+\end{equation*}
+where $y = \sum_i^n x_i$. Taking the derivative of the likelihood function with respect to $\theta$ gives
+\begin{equation*}
+\frac{\partial f}{\partial \theta} = \frac{1}{\prod_i^n(x_i!)}(-ne^{-n\theta} \theta^y + e^{-n \theta} y \theta^{y-1}).
+\end{equation*}
+Setting it equal to zero and solving for $\theta$ give $\hat{\theta} = \frac{y}{n}$, which is the sample mean $\overline{x}_n$.
+
+\
+
+\textbf{Answer.b:} When all observations are 0,  $\hat{\theta} = 0$. However, $\theta > 0$, therefore the M.L.E. of $\theta$ does not exist.
+
+%-------------------------------------------------------------
+\newpage
+
+\section*{7.6 Properties of Maximum Likelihood Estimators}
+\subsection*{Problem 3}
+Suppose that $X_1, \dots, X_n$ form a random sample from an exponential distribution for which the value of the parameter $\beta$ is unknown. Determine the M.L.E. of the median of the distribution.
+
+\
+
+\textbf{Answer:} The p.d.f. of the exponential distribution is 
+\begin{equation*}
+f(x \mid \beta) = \beta e^{- \beta x}.
+\end{equation*}
+Let $m$ be the median of this distribution, which should satisfy the equation
+\begin{equation*}
+\Pr(x \le m) = \int_0^m \beta e^{- \beta x} dx= \frac{1}{2}.
+\end{equation*}
+Solving for $m$ yields $m = \frac{\ln2}{\beta}$.
+The likelihood function is
+\begin{equation*}
+f_n(\boldsymbol{x} \mid \beta) = \beta^n e^{-\beta y},
+\end{equation*}
+where $y = \sum_i^n x_i$.
+Taking the partial derivative with respect to $\beta$, setting it equal to 0 and solving for $\beta$ give the M.L.E. $\hat{\beta} = \frac{1}{\overline{X}_n}$. According to the invariance property, the M.L.E. of the median $\hat{m} = \ln2 \overline{X}_n$.
+
+\subsection*{Problem 7}
+Suppose that $X_1, \dots, X_n$ form a random sample from a normal distribution for which both the mean and the variance are unknown. Find the M.L.E. of $v = \Pr(X > 2)$.
+
+\
+
+\textbf{Answer:} The M.L.E. of $\theta = (\mu, \sigma^2)$ is 
+\begin{equation*}
+\hat{\theta} = (\hat{\mu}, \hat{\sigma^2}) = (\overline{X}_n, \frac{1}{n} \sum_i^n (X_i - \overline{X}_n)^2).
+\end{equation*}
+According to the invariance property of M.L.E., we have the M.L.E. of $v$,
+\begin{equation*}
+\hat{v} = \int_2^{\infty} \frac{1}{\sqrt{2 \pi V_n}} \exp[-\frac{(x - \overline{X}_n)^2}{2V_n}] dx,
+\end{equation*}
+where $V_n = \frac{1}{n} \sum_i^n (X_i - \overline{X}_n)^2$. This also can be expressed as $\hat{v} = 1 - \Phi(\frac{2 - \hat{\mu}}{\hat{\sigma}})$.
 
 \end{document}
