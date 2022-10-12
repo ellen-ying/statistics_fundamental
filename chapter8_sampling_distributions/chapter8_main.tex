@@ -1,0 +1,295 @@
+\documentclass{article}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[english]{babel}
+
+% Set page size and margins
+\usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{amsfonts} 
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{listings}
+\usepackage[usenames,dvipsnames]{color}    
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\lstset{ 
+  language=R,                     % the language of the code
+  basicstyle=\ttfamily\scriptsize, % the size of the fonts that are used for the code
+  numbers=left,                   % where to put the line-numbers
+  numberstyle=\tiny\color{Blue},  % the style that is used for the line-numbers
+  stepnumber=1,                   % the step between two line-numbers. If it is 1, each line
+                                  % will be numbered
+  numbersep=5pt,                  % how far the line-numbers are from the code
+  backgroundcolor=\color{backcolour},  % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  frame=false,                   % adds a frame around the code
+  rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. commens (green here))
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  captionpos=b,                   % sets the caption-position to bottom
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  keywordstyle=\color{RoyalBlue},      % keyword style
+  commentstyle=\color{YellowGreen},   % comment style
+  stringstyle=\color{ForestGreen}      % string literal style
+} 
+
+
+%-------------------------------------------------------------
+
+\title{Chapter 8 Sampling Distributions of Estimators}
+\author{Yurun (Ellen Ying)}
+\date{Oct 2, 2022}
+\begin{document}
+\maketitle
+
+
+%-------------------------------------------------------------
+\section*{8.1 The Sampling Distribution of a Statistic}
+
+\subsection*{Problem 1}
+Suppose that a random sample $X_1, \dots, X_n$ is to be taken from the uniform distribution on the interval $[0, \theta]$ and that $\theta$ is unknown. How large a random sample must be taken in order that
+\begin{equation*}
+\Pr(|\text{max}\{X_1, \dots, X_n\} - \theta| \le 0.1\theta) \ge 0.95, 
+\end{equation*}  
+for all possible $\theta$?
+
+\
+
+\textbf{Answer:} Let random variable $T = \text{max}\{X_1, \dots, X_n\}$. We can write its c.d.f. as 
+\begin{equation*}
+\Pr(T \le t) = (\frac{t}{\theta})^n,
+\end{equation*}
+where $t \in [0, \theta]$. This is because if the maximum among $n$ observations is less than or equal to $t$, all off them are less than or equal to $t$. The fact that all of them are independent of each other gives the above expression.\\
+From the given condition, we have
+\begin{equation*}
+\Pr(|T - \theta| \le 0.1\theta) = \Pr(0.9\theta \le T \le 1.1\theta) =  1 - \Pr(T \le 0.9 \theta).
+\end{equation*}
+The last equality holds because $T \le 1.1\theta$ with a probability 1. So that we have
+\begin{equation*}
+1 - \Pr(T \le 0.9 \theta) = 1 - 0.9^n \ge 0.95.
+\end{equation*}
+Solving for $n$ yields $n \ge 29$.
+
+%-------------------------------------------------------------
+\bigskip
+
+\subsection*{Problem 3}
+Suppose that a random sample is to be taken from the normal distribution with unknown mean $\theta$ and standard deviation 2. \\
+a. How large a random sample must be taken in order that $\text{E}_{\theta}(|\overline{X}_n - \theta|^2) \le 0.1$ for every possible value $\theta$?\\
+b. How large a random sample must be taken in order that $\text{E}_{\theta}(|\overline{X}_n - \theta|) \le 0.1$ for every possible value of $\theta$?
+
+\
+
+\textbf{Answer.a:} Since $X_i$ are taken from a normal distribution independently, we can have
+\begin{equation*}
+\text{E}[\overline{X}_n] = \theta \; \text{and} \; \text{Var}[\overline{X}_n] = \text{E}[\overline{X}_n^2] - \text{E}[\overline{X}_n]^2 = \frac{\sigma^2}{n}.
+\end{equation*}
+Therefore, we have
+\begin{align*}
+\text{E}_{\theta}(|\overline{X}_n - \theta|^2) &= \text{E}[\overline{X}_n^2] - 2 \theta \text{E}[\overline{X}_n] + \theta^2 \\
+&= \frac{\sigma^2}{n} + \theta^2 - 2\theta^2 + \theta^2 \\
+&= \frac{4}{n} \le 0.1
+\end{align*}
+Solve for $n$ and we have $n \ge 40$.
+
+\
+
+\textbf{Answer.b:} Let $Y = \overline{X}_n - \theta$. Since $\overline{X}_n$ is a normal distribution with mean $\theta$ and variance $\frac{\sigma^2}{n}$, $Y$ is a normal distribution with mean 0 and the same variance. We can calculate the mean of $|Y|$ as follows:
+\begin{align*}
+\text{E}[|Y|] &= \int_{-\infty}^{-\infty} |y| f(y) dy \\
+&= \int_{-\infty}^{0} |y| f(y) dy + \int_{0}^{-\infty} |y| f(y) dy \\
+& = - \int_{-\infty}^{0} y f(y) dy + \int_{0}^{-\infty} y f(y) dy) \\
+&= - \frac{1}{\sqrt{2\pi \sigma^2/n}} (\int_{-\infty}^{0} y \exp[-\frac{y^2}{2 \sigma^2/n}] dy + \int_{0}^{-\infty} y \exp[-\frac{y^2}{2 \sigma^2/n}] dy) )\\
+&= \frac{1}{\sqrt{2\pi \sigma^2/n}} (\left. \frac{\sigma^2}{n} \exp[-\frac{y^2}{2 \sigma^2/n}] \right|_{-\infty}^{0} - \left. \frac{\sigma^2}{n} \exp[-\frac{y^2}{2 \sigma^2/n}] \right|_{0}^{-\infty})\\
+&= \sqrt{\frac{2\sigma^2}{n\pi}}.
+\end{align*}
+Therefore, we have 
+\begin{align*}
+\text{E}_{\theta}(|\overline{X}_n - \theta|) = \sqrt{\frac{8}{n\pi}} \le 0.1.
+\end{align*}
+Solve for $n$ and we have $n \ge \frac{800}{\pi} \approx 255$.
+
+%-------------------------------------------------------------
+\bigskip
+
+\subsection*{Problem 5}
+Suppose that a random sample is to be taken from the Bernoulli distribution with unknown parameter $p$. Suppose also that it is believed that the value of $p$ is in the neighborhood of 0.2. How large a random sample must be taken in order that $\Pr(|\overline{X}_n - p| \le 0.1) \ge 0.75$ when $p = 0.2$?
+
+\
+
+\textbf{Answer:} We can express the probability we need to calculate as follows
+\begin{equation*}
+\Pr(-0.1 + p \le \overline{X}_n \le 0.1 + p) = \Pr(0.1 \le \overline{X}_n \le 0.3) = \Pr(\overline{X}_n \le 0.3) - \Pr(\overline{X}_n \le 0.1).
+\end{equation*}
+This calls for us to calculate the c.d.f. of the sampling distribution of $\overline{X}_n$. Since $\overline{X}_n = \frac{Y}{n}$ where $Y = \sum_i^n X_i \sim \text{Bern}(n, p)$, we have
+\begin{align*}
+F_{\overline{X}_n}(x) &= \Pr(\overline{X}_n \le x) \\
+&= \Pr(Y \le nx) \\
+&= \sum_0^{nx} \begin{pmatrix}
+n \\
+nx
+\end{pmatrix} p^{nx} (1-p)^{n-nx}.
+\end{align*}
+Substitute back to the original express yields a equation that needs to be solved
+\begin{equation*}
+F_{\overline{X}_n}(0.3) - F_{\overline{X}_n}(0.1) \ge 0.75.
+\end{equation*}
+Using R to solve the equation yields $n \ge 17$. \\
+\textbf{Appendix:} R code for reference
+\begin{lstlisting}
+# write a function to calculate the c.d.f. of X_n
+Pr <- function(n, x, p = 0.2) {
+  nx <- seq(0, n*x, by = 1)
+  Pr <- sum(gamma(n+1)/(gamma(nx+1)*gamma(n-nx+1))*p^(nx)*(1-p)^(n - nx))
+  return(Pr)
+}
+
+# iterate through different values of n
+N <- seq(10, 100, by = 1) # generate a sequence of n
+P <- c() # placeholder for the desired probability
+for (n in N) {
+  p <- Pr(n = n, x = 0.3, p = 0.2) - Pr(n = n, x = 0.1, p = 0.2) # calculate the probability 
+  P <- c(P, p) # append the new value to the vector
+}
+
+min(N[which(P >= 0.75)])
+\end{lstlisting}
+
+%-------------------------------------------------------------
+\newpage
+
+\section*{8.2 The Chi-Squared Distributions}
+\subsection*{Problem 1}
+Suppose that we will sample 20 chunks of cheese in Example 8.2.3. Let $T = \sum_{i=1}^{20} (X_i - \mu)^2/20$, where $X_i$ is the concentration of lactic acid in the $i$th chunck. Assume that $\sigma^2 = 0.09$. What number $c$ satisfies $\Pr(T \le c) = 0.9$?
+
+\
+
+\textbf{Answer:} Let $Z_i = \frac{X_i}{\sigma}$, and we can write $T$ as
+\begin{equation*}
+T = \sum_{i=1}^{20} (X_i - \mu)^2/20 = \frac{\sigma^2}{20} \sum_{i=1}^{20} Z_i^2.
+\end{equation*}
+Therefore, $W = \frac{20T}{\sigma^2}$ is a Chi-squared distribution. Now we have
+\begin{equation*}
+\Pr(T \le c) = \Pr(W \le \frac{20c}{\sigma^2}) = 0.9.
+\end{equation*}
+Thus, $\frac{20c}{\sigma^2} = 28.41198$. Solving for $c$ yields $c \approx 0.1279$
+
+%-------------------------------------------------------------
+\bigskip
+
+\subsection*{Problem 5}
+Suppose that a point $(X, Y, Z)$ is to be chosen at random in three-dimensional space, where $X$, $Y$, and $Z$ are independent random variables and each has the standard normal distribution. What is the probability that the distance from the origin to the point will be less than 1 unit?
+
+\
+
+\textbf{Answer:} The distance can be expressed as $d = \sqrt{X^2 + Y^2 + Z^2}$, and thus the square $d^2 = X^2 + Y^2 + Z^2$ is a Chi-squared distribution with 3 degrees of freedom. The probability of $d$ being less than 1 unit is
+\begin{equation*}
+\Pr(d < 1) = \Pr(d^2 < 1) \approx 0.1987
+\end{equation*}
+
+
+%-------------------------------------------------------------
+\newpage
+
+\section*{8.4 The \textit{t} Distributions}
+\subsection*{Problem 1}
+Suppose that $X$ has the $t$ distribution with $m$ degrees of freedom $(m > 2)$. Show that $\text{Var}(X) = m/(m - 2)$.
+
+\
+
+\textbf{Answer:} Since $\text{E}[X] = 0$, $\text{Var}[X] = \text{E}[X^2]$. Using the p.d.f. of a \textit{t} distribution, we have
+\begin{equation*}
+\text{E}[X^2] = \frac{\Gamma(\frac{m+1}{2})}{(m\pi)^{1/2} \Gamma(\frac{m}{2})} \int_{-\infty}^{+\infty} x^2 (1 + \frac{x^2}{m})^{-\frac{m+1}{2}} dx.
+\end{equation*}
+Since the integrand is an even function, the above equation can be written into
+\begin{equation*}
+\text{E}[X^2] = 2 \frac{\Gamma(\frac{m+1}{2})}{(m\pi)^{1/2} \Gamma(\frac{m}{2})} \int_0^{+\infty} x^2 (1 + \frac{x^2}{m})^{-\frac{m+1}{2}} dx.
+\end{equation*}
+Change the variable $x$ to 
+\begin{equation*}
+y = \frac{\frac{x^2}{m}}{1+\frac{x^2}{m}},
+\end{equation*}
+we have
+\begin{align*}
+\text{E}[X^2] &= 2 \frac{\Gamma(\frac{m+1}{2})}{(m\pi)^{1/2} \Gamma(\frac{m}{2})} \int_0^{+\infty} \frac{my}{1-y} (\frac{1}{1 - y})^{-\frac{m+1}{2}} \frac{1}{2} (\frac{my}{1 - y})^{-\frac{1}{2}} \frac{m}{(1 - y)^2} dy \\
+&= 2 \frac{\Gamma(\frac{m+1}{2})}{(m\pi)^{1/2} \Gamma(\frac{m}{2})} \frac{m^{\frac{3}{2}}}{2} \int_0^{+\infty} y^{\frac{1}{2}} (1 - y)^{\frac{m-4}{2}} dy \\
+&= 2 \frac{\Gamma(\frac{m+1}{2})}{(m\pi)^{1/2} \Gamma(\frac{m}{2})} \frac{m^{\frac{3}{2}}}{2} \frac{\Gamma(\frac{3}{2}) \Gamma(\frac{m - 2}{2})}{\Gamma(\frac{m + 1}{2})} \\
+&= \frac{m}{m - 2}.
+\end{align*}
+The second to last step holds based on the p.d.f. of a beta function with parameters $\alpha = \frac{3}{2}$ and $\beta = \frac{m - 2}{2}$.
+
+
+%-------------------------------------------------------------
+\newpage
+
+\section*{8.5 Confidence Intervals}
+\subsection*{Problem 1}
+Suppose that $X_1, \dots, X_n$ form a random sample from the normal distribution with unknown mean $\mu$ and known variance $\sigma^2$. Let $\Phi$ stand for the c.d.f. of the standard normal distribution, the c.d.f. of the standard normal distribution, and let $\Phi^{-1}$ be its inverse. Show that the following interval is a coefficient $\gamma$ confidence interval for $\mu$ if $X_n$ is the observed average of the data values:
+\begin{equation*}
+(\overline{X}_n - \Phi^{-1} \left(\frac{1 + \gamma}{2} \right) \frac{\sigma}{\sqrt{n}}, \; \overline{X}_n + \Phi^{-1} \left(\frac{1 + \gamma}{2} \right) \frac{\sigma}{\sqrt{n}})
+\end{equation*}
+
+\
+
+\textbf{Answer:} Let $Z = \frac{\overline{X}_n - \mu}{\sigma/\sqrt{n}}$, which is a standard normal distribution. Let $c$ be a real number satisfying $\Pr(-c < Z < c) = \gamma$, we then have $c = \Phi^{-1}(\frac{\gamma + 1}{2})$. Substituting $Z$ in the probability expression gives
+\begin{align*}
+\Pr(-c < Z < c) &= \Pr(-c < \frac{\overline{X}_n - \mu}{\sigma/\sqrt{n}} < c) \\
+&= \Pr(\overline{X}_n - \frac{c\sigma}{\sqrt{n}} < \mu < \overline{X}_n + \frac{c\sigma}{\sqrt{n}}) \\
+&= \Pr(\overline{X}_n - \Phi^{-1} \left(\frac{1 + \gamma}{2} \right) \frac{\sigma}{\sqrt{n}} < \mu < \overline{X}_n + \Phi^{-1} \left(\frac{1 + \gamma}{2} \right) \frac{\sigma}{\sqrt{n}}),
+\end{align*}
+which means the given expression is the confidence interval for $\mu$.
+
+%-------------------------------------------------------------
+\bigskip
+
+\subsection*{Problem 3}
+Suppose that $X_1, \dots , X_n$ form a random sample from the normal distribution with unknown mean $\mu$ and unknown variance $\sigma$, and let the random variable $L$ denote the length of the shortest confidence interval for mu that can be constructed from the observed values in the sample. Find the value of $\text{E}(L^2)$.
+
+\
+
+\textbf{Answer:} From the given conditions, we know that 
+$$L^2=4 \left[T_{n-1}^{-1}\left(\frac{r+1}{2}\right) \right]^2 \frac{\sigma^{'2}}{n}.
+$$
+Therefore,
+$$
+\text{E}[L^2] =\text{E}\left[4 \left[T_{n-1}^{-1}\left(\frac{r+1}{2}\right) \right]^2 \frac{\sigma^2}{n(n-1)} Y \right],
+$$
+where 
+$$
+Y = \frac{\sum_{i=1}^n (X_i - \overline{X}_n)2}{\sigma^2},
+$$ which is a Chi-squared distribution with $n -1$ degrees of freedom. Since its expectation is $n - 1$, we have
+$$
+\text{E}[L^2] = 4 \left[T_{n-1}^{-1}\left(\frac{r+1}{2}\right) \right]^2 \frac{\sigma^2}{n}.
+$$
+
+%-------------------------------------------------------------
+\newpage
+
+\section*{8.6 Unbiased Estimator}
+\subsection*{Problem 1}
+Let $X_1, \dots, X_n$ be a random sample from the Poisson distribution with mean $\theta$. \\
+a. Express the $Var_{\theta}(X_i)$ as a function $\sigma^2=g(\theta)$. \\
+b. Find the M.L.E. of $g(\theta)$ and show that it is unbiased.
+
+\
+
+\textbf{Answer:} a. Since $X$ is from a Poisson distribution, $Var_{\theta}(X_i) = \theta$. \\
+b. The M.L.E. of $g(\theta)$ is $\hat{\theta} = \overline{X}_n$. We know that $\text{E}_{\theta}[\overline{X}_n] = n \frac{\theta}{n} = \theta = Var_{\theta}(X_i)$, so the M.L.E. $\hat{\theta}$ is an unbiased estimator.
+
+%-------------------------------------------------------------
+\bigskip
+
+\subsection*{Problem 2}
+Suppose that $X$ is a random variable whose distribution is completely unknown, but it is known that all the moments $\text{E}(X^k)$, for $k = 1, 2, \dots$, are finite. Suppose also that $X_1, \dots, X_n$ form a random sample from this distribution. Show that for $k = 1, 2, \dots$, the $k$th sample moment $(1/n) \sum^n_{i=1}X_i^k$ is an unbiased estimator of $\text{E}(X^k)$.
+
+\textbf{Answer:} Let $\delta(\mathbf{X})$ = $(1/n) \sum^n_{i=1}X_i^k$. We have the expectation of this statistic
+$$\text{E}_{\theta}[\delta(\mathbf{X})] = \frac{1}{n} \sum^n_{i=1} \text{E}[X_i^k] = \text{E}[X^k].$$
+The last equality holds because for all $k = 1, 2,  \dots$, $\text{E}(X^k)$ are finite. Therefore $\delta(\mathbf{X})$ is an unbiased estimator for $\text{E}(X^k)$. 
+
+
+\end{document}
